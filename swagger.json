@@ -1,0 +1,2448 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "version": "2.0.2",
+    "title": "API for React Task Pro application",
+    "description": "REST API for managing users, boards, columns, tasks in React Task Pro application",
+    "license": {
+      "name": "GoIt - Final project",
+      "url": "https://github.com/VPresich/react-task-pro"
+    }
+  },
+  "consumes": ["multipart/form-data", "application/json"],
+  "produces": ["application/json"],
+  "servers": [{ "url": "https://tasks-rest-api-8u4m.onrender.com/api" }],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "User authorization endpoints. Register a new user, log in a user, logout the user, refresh user session, and update user profile."
+    },
+    {
+      "name": "Boards",
+      "description": "Get boards for the user. Create, delete, and update boards."
+    },
+    {
+      "name": "Columns",
+      "description": "Get columns for the current board. Create, delete and update columns on the board."
+    },
+    {
+      "name": "Tasks",
+      "description": "Get tasks for the current board and columns. Create, delete, and update tasks within columns. Move tasks to another column within the current board."
+    },
+    {
+      "name": "Help",
+      "description": "Send email"
+    },
+    {
+      "name": "Backgrounds",
+      "description": "Get backgrounds"
+    }
+  ],
+  "paths": {
+    "/users/register": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User registration",
+        "parameters": [],
+        "requestBody": {
+          "description": "Registration's object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/RegistrationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful registration",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorInRequest"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email in use",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/EmailInUse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User login",
+        "parameters": [],
+        "requestBody": {
+          "description": "User login credentials",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User registered successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/RegistrationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorInRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BadLoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User logout",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "204": {
+            "description": "No content",
+            "content": [{}]
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/current": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Refresh user information",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          }
+        ],
+
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+
+        "responses": {
+          "200": {
+            "description": "User refresh successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/avatar": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user avatar Url",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Ok",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AvatarResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/avatars": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Update avatar of current user",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Update avatar",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAvatarRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AvatarResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "patch": {
+        "summary": "Update user information",
+        "tags": ["Users"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Updated user information",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/UpdateProfileRequest"
+              },
+              "example": {
+                "name": "string",
+                "email": "user@example.com",
+                "password": "user@example.com",
+                "theme": "light"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User information updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/CurrentUserResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorInRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Email in use for another user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/EmailInUse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/google": {
+      "get": {
+        "summary": "Redirect to Google OAuth",
+        "description": "Redirects the user to Google's OAuth 2.0 authentication page.",
+        "tags": ["Users"],
+        "responses": {
+          "302": {
+            "description": "Redirect to Google OAuth",
+            "headers": {
+              "Location": {
+                "description": "URL to redirect the user to Google's OAuth 2.0 authentication page.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/google-redirect": {
+      "get": {
+        "summary": "Google OAuth Redirect",
+        "description": "Handles the redirection from Google's OAuth 2.0 authentication page and processes the authentication code.",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "required": true,
+            "description": "Authorization code returned by Google OAuth 2.0",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "Redirect to frontend with JWT token",
+            "headers": {
+              "Location": {
+                "description": "URL to redirect the user to the frontend application with JWT token.",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorInRequest"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/boards": {
+      "get": {
+        "tags": ["Boards"],
+        "summary": "Get all boards",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BoardResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new board",
+        "description": "Create a new board and assign the current user as the owner.",
+        "tags": ["Boards"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/BoardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Board successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ShortBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorInRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/boards/{id}": {
+      "get": {
+        "summary": "Get a board by its ID",
+        "description": "Retrieve information about a specific board by its ID.",
+        "tags": ["Boards"],
+
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the board to retrieve.",
+            "schema": {
+              "type": "string",
+              "example": "60d5ec49f68a4b8b8c1b5c8e"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved board details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BoardResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden ",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this board"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Board not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Board not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update a board",
+        "description": "Update the details of an existing board.",
+        "tags": ["Boards"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the board to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/BoardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Board successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ShortBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorInRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this board"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Board not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Board not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Boards"],
+        "summary": "Delete a board by ID",
+        "description": "Deletes a board along with its columns and tasks if the user is authorized.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the board to delete",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "description": "Bearer token for user authorization",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Successful board deletion",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ShortBoardResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body or parameters)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorInRequest"
+                },
+                "example": {
+                  "message": "Invalid board ID"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this board"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Board not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "Board not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/boards/{id}/columns": {
+      "get": {
+        "summary": "Get all columns for a board",
+        "description": "Retrieve all columns associated with a specific board by its ID.",
+        "tags": ["Columns"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the board to retrieve columns for.",
+            "schema": {
+              "type": "string",
+              "example": "60d5ec49f68a4b8b8c1b5c8e"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully retrieved columns for the board",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/ColumnResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this board"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Board not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Board not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "post": {
+        "tags": ["Columns"],
+        "summary": "Create a column for a board",
+        "description": "Creates a new column for a specific board.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the board to add the column to",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "New column object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/ColumnRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Column created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ShortColumnResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorInRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this board"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Board not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Board not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/columns/{id}": {
+      "patch": {
+        "summary": "Update a column by ID",
+        "tags": ["Columns"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the column to update"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/ColumnRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Column updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ShortColumnResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this column"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Column or board for this column not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Board or column not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "Delete a column by ID",
+        "tags": ["Columns"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID of the column to delete"
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Column deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ShortColumnResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this column"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Column or board for this column not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Board or column not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/boards/{id}/tasks": {
+      "get": {
+        "summary": "Get all tasks for a board",
+        "description": "Retrieve all tasks associated with the columns of a specific board.",
+        "tags": ["Tasks"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "60d5ec49f68a4b8b8c1b5c8e"
+            },
+            "description": "The ID of the board to retrieve tasks from"
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "List of all tasks for the specified board",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TaskResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this board"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Board not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Board not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/columns/{id}/tasks": {
+      "post": {
+        "tags": ["Tasks"],
+        "summary": "Create a task for a column",
+        "description": "Creates a new task in the specified column.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The Id of the column the task add to",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Task object that needs to be added to the column",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/CreateTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ShortTaskResponse"
+                }
+              }
+            }
+          },
+
+          "400": {
+            "description": "Bad request (invalid request body or parameters)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorInRequest"
+                },
+                "example": {
+                  "message": "Invalid request body"
+                }
+              }
+            }
+          },
+
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this column"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Column not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Board or column not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/tasks/{id}": {
+      "patch": {
+        "tags": ["Tasks"],
+        "summary": "Update a task by ID or move one to another column within the current board.",
+        "description": "Update an existing task with new data (if a column exists in the request body the task move to the column).",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the task to update",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Updated task object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/UpdateTaskRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ShortTaskResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body or parameters)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorInRequest"
+                }
+              }
+            }
+          },
+
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this task"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": " The task not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Board or column or task not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "delete": {
+        "tags": ["Tasks"],
+        "summary": "Delete a task by ID",
+        "description": "Deletes an existing task by its ID.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The ID of the task to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Task deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ShortTaskResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this task"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The task not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Board or column or task not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/backgrounds": {
+      "get": {
+        "tags": ["Backgrounds"],
+        "summary": "Get all backgrounds",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "A list of all backgrounds",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BackgroundResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/helps": {
+      "post": {
+        "summary": "Create a new help request",
+        "tags": ["Help"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/HelpRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Help request created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Help request received"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body or parameters)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorInRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized (invaild or missing token)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "RegistrationRequest": {
+        "type": "object",
+        "required": ["name", "email", "password"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password"
+          }
+        }
+      },
+
+      "LoginRequest": {
+        "type": "object",
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password"
+          }
+        }
+      },
+
+      "securitySchemes": {
+        "Bearer": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      },
+
+      "UpdateProfileRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email"
+          },
+          "password": {
+            "type": "string",
+            "format": "email",
+            "description": "User's password"
+          },
+          "theme": {
+            "type": "string",
+            "description": "User's theme",
+            "enum": ["light", "dark", "violet"]
+          }
+        }
+      },
+
+      "UpdateAvatarRequest": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "User's avatar file"
+          }
+        },
+        "required": ["avatar"]
+      },
+
+      "BoardRequest": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Title of the board"
+          },
+          "background": {
+            "type": "string",
+            "description": "Background id from existing backgrounds, by default: 'no-img'. This value should be one of the existing background IDs.",
+            "enum": ["665dab40d37019ad00137c09", "no-img"],
+            "default": "no-img"
+          },
+          "icon": {
+            "type": "string",
+            "description": "icon id from existing in sprite",
+            "default": "icon-circles",
+            "enum": [
+              "icon-circles",
+              "icon-star",
+              "icon-loading",
+              "icon-puzzle-piece",
+              "icon-container",
+              "icon-lightning",
+              "icon-colors",
+              "icon-hexagon"
+            ]
+          }
+        }
+      },
+
+      "ColumnRequest": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the column",
+            "example": "To Do"
+          }
+        }
+      },
+
+      "CreateTaskRequest": {
+        "type": "object",
+        "required": ["title"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the task"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the task",
+            "default": ""
+          },
+          "priority": {
+            "type": "string",
+            "description": "The priority level of the task. Case insensitive.",
+            "enum": ["Low", "Medium", "High", "Without priority"],
+            "default": "Without priority"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The deadline for the task",
+            "default": null
+          },
+
+          "example": {
+            "title": "New Task",
+            "description": "This is a new task",
+            "priority": "Low",
+            "deadline": "2024-06-14T12:00:00Z"
+          }
+        }
+      },
+
+      "UpdateTaskRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the task"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the task",
+            "default": ""
+          },
+          "priority": {
+            "type": "string",
+            "description": "The priority level of the task. Case insensitive.",
+            "enum": ["Low", "Medium", "High", "Without priority"],
+            "default": "Without priority"
+          },
+          "deadline": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The deadline for the task",
+            "default": null
+          },
+          "column": {
+            "type": "string",
+            "description": "ID of the column into which the task is moved. The valid value id is one of the columns id belonging to the current board."
+          },
+
+          "example": {
+            "title": "Updated Task",
+            "description": "This is an updated task",
+            "priority": "Low",
+            "deadline": "2024-06-14T12:00:00Z",
+            "column": "666f0b6daafdd8ba3eb49ea7"
+          }
+        }
+      },
+
+      "HelpRequest": {
+        "type": "object",
+        "required": ["email", "text"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email"
+          },
+          "text": {
+            "type": "string",
+            "description": "User's message"
+          }
+        }
+      },
+
+      "RegistrationResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "description": "JWT token for authentication",
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "example": "test1970"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "example": "test1970@test1970.com"
+              },
+              "avatarURL": {
+                "type": "string",
+                "format": "uri",
+                "example": "https://res.cloudinary.com/dirtbd4yk/image/upload/v1717687717/def-avatar-light_1x_fkwy6u.jpg"
+              },
+              "theme": {
+                "type": "string",
+                "example": "light"
+              }
+            }
+          }
+        }
+      },
+
+      "CurrentUserResponse": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "User's name"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "description": "User's email"
+          },
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatar URL"
+          },
+          "theme": {
+            "type": "string",
+            "description": "User's theme",
+            "enum": ["light", "dark", "violet"]
+          }
+        }
+      },
+
+      "AvatarResponse": {
+        "type": "object",
+        "properties": {
+          "avatarURL": {
+            "type": "string",
+            "description": "User's avatar URL"
+          }
+        }
+      },
+
+      "BoardResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Unique identifier of the board"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the board"
+          },
+          "background": {
+            "type": "string",
+            "description": "Background id from existing backgrounds, by default: 'no-img'. This value should be one of the existing background IDs.",
+            "enum": ["665dab40d37019ad00137c09", "no-img"],
+            "default": "no-img"
+          },
+          "icon": {
+            "type": "string",
+            "description": "icon id in the spright"
+          },
+
+          "owner": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "Unique identifier of the owner"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the owner"
+              },
+              "email": {
+                "type": "string",
+                "format": "email",
+                "description": "Email of the owner"
+              },
+              "avatarUrl": {
+                "type": "string",
+                "description": "URL of the owner's avatar"
+              },
+              "theme": {
+                "type": "string",
+                "theme": "User theme"
+              }
+            },
+            "description": "Information about the owner of the board"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Task creation timestamp"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Task last update timestamp"
+          }
+        }
+      },
+
+      "ShortBoardResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "Unique identifier of the board"
+          },
+          "title": {
+            "type": "string",
+            "description": "Title of the board"
+          },
+          "background": {
+            "type": "string",
+            "description": "Background id from existing backgrounds, by default: 'no-img'. This value should be one of the existing background IDs.",
+            "enum": ["665dab40d37019ad00137c09", "no-img"],
+            "default": "no-img"
+          },
+          "icon": {
+            "type": "string",
+            "description": "icon id in the spright"
+          },
+
+          "owner": {
+            "type": "string",
+            "example": "owner id",
+            "description": "owner id"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Task creation timestamp"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Task last update timestamp"
+          }
+        }
+      },
+
+      "ColumnResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the column",
+            "example": "60c9b01baf054e001f91f2b1"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the column",
+            "example": "To Do"
+          },
+
+          "board": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "Unique identifier of thr board"
+              },
+              "title": {
+                "type": "string",
+                "description": "Title of the boars"
+              },
+              "background": {
+                "type": "string",
+                "description": "Background id from existing backgrounds, by default: 'no-img'. This value should be one of the existing background IDs.",
+                "enum": ["665dab40d37019ad00137c09", "no-img"],
+                "default": "no-img"
+              },
+              "icon": {
+                "type": "string",
+                "description": "Icon id in sprite"
+              }
+            },
+            "description": "Information about the owner of the board"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the column was created",
+            "example": "2024-06-13T12:00:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the column was last updated",
+            "example": "2024-06-13T12:30:00Z"
+          }
+        }
+      },
+
+      "ShortColumnResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the column",
+            "example": "60c9b01baf054e001f91f2b1"
+          },
+
+          "title": {
+            "type": "string",
+            "description": "The title of the column",
+            "example": "To Do"
+          },
+
+          "board": {
+            "type": "string",
+            "description": "The ID of the board that the column belongs to",
+            "example": "60c9b01baf054e001f91f2a9"
+          },
+
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the column was created",
+            "example": "2024-06-13T12:00:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the column was last updated",
+            "example": "2024-06-13T12:30:00Z"
+          }
+        }
+      },
+
+      "TaskResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "The ID of the created task"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the task"
+          },
+
+          "description": {
+            "type": "string",
+            "description": "The description of the task"
+          },
+
+          "priority": {
+            "type": "string",
+            "description": "The priority level of the task (case insensitive)",
+            "enum": ["Low", "Medium", "High", "Without priority"],
+            "default": "Without priority"
+          },
+
+          "deadline": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The deadline for the task"
+          },
+          "column": {
+            "type": "object",
+            "properties": {
+              "_id": {
+                "type": "string",
+                "description": "The ID of the column"
+              },
+              "title": {
+                "type": "string",
+                "description": "The title of the column"
+              }
+            }
+          },
+
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Task creation timestamp"
+          },
+
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Task last update timestamp"
+          }
+        },
+        "example": {
+          "_id": "60d21b4667d0d8992e610c86",
+          "title": "New Task",
+          "description": "This is a new task",
+          "priority": "Low",
+          "deadline": "2024-06-14T12:00:00Z",
+          "column": {
+            "_id": "60d21b4667d0d8992e610c85",
+            "title": "Column title"
+          },
+          "createdAt": "2024-06-13T12:00:00Z",
+          "updatedAt": "2024-06-13T12:00:00Z"
+        }
+      },
+
+      "ShortTaskResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "The ID of the created task"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the task"
+          },
+
+          "description": {
+            "type": "string",
+            "description": "The description of the task"
+          },
+
+          "priority": {
+            "type": "string",
+            "description": "The priority level of the task (case insensitive)",
+            "enum": ["Low", "Medium", "High", "Without priority"],
+            "default": "Without priority"
+          },
+
+          "deadline": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The deadline for the task"
+          },
+
+          "column": {
+            "type": "string",
+            "description": "The ID of the column"
+          },
+
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Task creation timestamp"
+          },
+
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Task last update timestamp"
+          }
+        },
+        "example": {
+          "_id": "60d21b4667d0d8992e610c86",
+          "title": "New Task",
+          "description": "This is a new task",
+          "priority": "Low",
+          "deadline": "2024-06-14T12:00:00Z",
+          "column": "60d21b4667d0d8992e610c85",
+          "createdAt": "2024-06-13T12:00:00Z",
+          "updatedAt": "2024-06-13T12:00:00Z"
+        }
+      },
+
+      "BackgroundResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "The background ID"
+          },
+          "imgUrl_desktop_2x": {
+            "type": "string",
+            "description": "URL for desktop image 2x"
+          },
+          "imgUrl_desktop_1x": {
+            "type": "string",
+            "description": "URL for desktop image 1x"
+          },
+          "imgUrl_mobile_1x": {
+            "type": "string",
+            "description": "URL for mobile image 1x"
+          },
+          "imgUrl_mobile_2x": {
+            "type": "string",
+            "description": "URL for mobile image 2x"
+          },
+          "imgUrl_tablet_1x": {
+            "type": "string",
+            "description": "URL for tablet image 1x"
+          },
+          "imgUrl_tablet_2x": {
+            "type": "string",
+            "description": "URL for tablet image 2x"
+          },
+          "label": {
+            "type": "string",
+            "description": "Label image URL"
+          }
+        },
+        "example": {
+          "_id": "665dab40d37019ad00137c09",
+          "imgUrl_desktop_2x": "https://res.cloudinary.com/dirtbd4yk/image/upload/v1718033987/theme01_desktop_2x_vpsnlj.jpg",
+          "imgUrl_desktop_1x": "https://res.cloudinary.com/dirtbd4yk/image/upload/v1718033986/theme01_desktop_1x_brzmfg.jpg",
+          "imgUrl_mobile_1x": "https://res.cloudinary.com/dirtbd4yk/image/upload/v1718040177/theme01_mobile_1x_xqz8kb.jpg",
+          "imgUrl_mobile_2x": "https://res.cloudinary.com/dirtbd4yk/image/upload/v1718040182/theme01_mobile_2x_eah6jm.jpg",
+          "imgUrl_tablet_1x": "https://res.cloudinary.com/dirtbd4yk/image/upload/v1718038720/theme01_tablet_1x_yin395.jpg",
+          "imgUrl_tablet_2x": "https://res.cloudinary.com/dirtbd4yk/image/upload/v1718038720/theme01_tablet_2x_s1glrh.jpg",
+          "label": "https://res.cloudinary.com/dirtbd4yk/image/upload/v1718041846/vector-01_wvpiqx.jpg"
+        }
+      },
+
+      "ErrorUnauthorizedResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Not authorized"
+        }
+      },
+
+      "ErrorInRequest": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Error message"
+        }
+      },
+
+      "EmailInUse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Email in use"
+        }
+      },
+
+      "BadLoginResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Email or password is wrong"
+        }
+      }
+    }
+  }
+}
