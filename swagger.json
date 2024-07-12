@@ -453,8 +453,54 @@
     "/teachers": {
       "get": {
         "tags": ["Teachers"],
-        "summary": "Get all teachers",
-        "parameters": [],
+        "summary": "Get teachers based on filters",
+        "parameters": [
+          {
+            "name": "level",
+            "in": "query",
+            "description": "Filter by language level (e.g., A1 Beginner, B1 Intermediate)",
+            "schema": {
+              "type": "string",
+              "example": "A1 Beginner"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "description": "Filter by language (e.g., English, Spanish)",
+            "schema": {
+              "type": "string",
+              "example": "English"
+            }
+          },
+          {
+            "name": "price_per_hour",
+            "in": "query",
+            "description": "Filter by maximum price per hour",
+            "schema": {
+              "type": "number",
+              "example": 35
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default: 1)",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of results per page (default: 4)",
+            "schema": {
+              "type": "integer",
+              "default": 4
+            }
+          }
+        ],
         "requestBody": {
           "description": "Empty request body",
           "content": {},
@@ -466,9 +512,23 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TeacherResponse"
+                  "type": "object",
+                  "$ref": "#/components/schemas/TeachersResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Page not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Page not found"
+                    }
                   }
                 }
               }
@@ -480,10 +540,8 @@
 
     "/teachers/{id}": {
       "get": {
-        "summary": "Get a teacher by its ID",
-        "description": "Retrieve information about a specific teacher by its ID.",
         "tags": ["Teachers"],
-
+        "summary": "Get teachers based on filters",
         "parameters": [
           {
             "name": "id",
@@ -492,22 +550,17 @@
             "description": "The ID of the teacher to retrieve.",
             "schema": {
               "type": "string",
-              "example": "6691060d059f7e247d62a77a"
+              "example": "6691060d059f7e247d62a761"
             }
           }
         ],
-        "requestBody": {
-          "description": "Empty request body",
-          "content": {},
-          "required": false
-        },
         "responses": {
           "200": {
-            "description": "Successfully retrieved teacher details",
+            "description": "Success",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TeacherResponse"
+                  "$ref": "#/components/schemas/TeachersResponse"
                 }
               }
             }
@@ -866,6 +919,35 @@
           "experience": {
             "type": "string",
             "example": "Sophie has been teaching English and Spanish for 6 years. She has a strong command of both languages and is dedicated to helping her students achieve their language learning goals. Sophie's teaching approach emphasizes engaging and effective lessons that incorporate interactive activities and practical exercises. Her lessons are designed to build language skills, improve fluency, and enhance communication abilities. With her patient and supportive teaching style, Sophie creates a positive and productive learning environment for her students."
+          }
+        }
+      },
+
+      "TeachersResponse": {
+        "type": "object",
+        "properties": {
+          "totalRecords": {
+            "type": "integer",
+            "description": "Total number of records matching the query"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "Total number of pages based on the limit"
+          },
+          "page": {
+            "type": "integer",
+            "description": "Current page number"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Number of results per page"
+          },
+          "teachers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TeacherResponse"
+            },
+            "description": "List of teachers matching the query criteria"
           }
         }
       },
