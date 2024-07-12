@@ -18,6 +18,10 @@
       "description": "User authorization endpoints. Register a new user, log in a user, logout the user, refresh user session, and update user profile."
     },
     {
+      "name": "Teachers",
+      "description": "Get teachers."
+    },
+    {
       "name": "Boards",
       "description": "Get boards for the user. Create, delete, and update boards."
     },

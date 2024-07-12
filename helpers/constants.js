@@ -18,3 +18,6 @@ export const PATH_DEF_LIGHT_AVATAR =
 
 export const PATH_DEF_BLACK_AVATAR =
   'https://res.cloudinary.com/dirtbd4yk/image/upload/v1717687719/def-avatar-dark_1x_mg7mpo.jpg';
+
+export const NAME_ERR_MESSAGE =
+  'must contain only letters, numbers, and special characters, and be between 2 and 32 characters long';
