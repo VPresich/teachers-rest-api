@@ -14,12 +14,16 @@ const getTeachersPage = ctrlWrapper(async (req, res, next) => {
   if (level) {
     query.levels = { $in: [level] };
   }
+
   if (language) {
     query.languages = { $in: [language] };
   }
+
   if (price_per_hour) {
     query.price_per_hour = { $lte: parseInt(price_per_hour, 10) };
   }
+
+  console.log('query', query);
 
   const totalRecords = await Teacher.countDocuments(query);
   const totalPages = Math.ceil(totalRecords / limitNumber);
