@@ -20,7 +20,7 @@ const getTeachersPage = ctrlWrapper(async (req, res, next) => {
   }
 
   if (price_per_hour) {
-    query.price_per_hour = { $lte: parseInt(price_per_hour, 10) };
+    query.price_per_hour = { $lte: parseFloat(price_per_hour) };
   }
 
   console.log('query', query);
