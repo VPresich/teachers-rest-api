@@ -20,9 +20,15 @@ export const profileSchema = Joi.object({
   name: Joi.string().optional().pattern(NAME_PATTERN),
   email: Joi.string().email().optional().pattern(EMAIL_PATTERN),
   password: Joi.string().min(6).optional(),
-  theme: Joi.string().valid('light', 'violet', 'dark').insensitive().optional(),
+  theme: Joi.string()
+    .valid('yellow', 'green', 'blue', 'pink', 'red')
+    .insensitive()
+    .optional(),
 });
 
 export const themeSchema = Joi.object({
-  theme: Joi.string().valid('light', 'violet', 'dark').insensitive().required(),
+  theme: Joi.string()
+    .valid('yellow', 'green', 'blue', 'pink', 'red')
+    .insensitive()
+    .required(),
 });
