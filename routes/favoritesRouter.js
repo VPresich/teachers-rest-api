@@ -6,11 +6,7 @@ const favoritesRouter = express.Router();
 
 favoritesRouter.get('/', authMiddleware, favoritesCtrls.getAllFavorites);
 
-favoritesRouter.post(
-  '/:idTeacher',
-  authMiddleware,
-  favoritesCtrls.createFavorite
-);
+favoritesRouter.post('/:idTeacher', authMiddleware, favoritesCtrls.addFavorite);
 
 favoritesRouter.delete(
   '/:idTeacher',

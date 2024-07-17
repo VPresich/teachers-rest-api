@@ -12,8 +12,9 @@ const getAllFavorites = ctrlWrapper(async (req, res, next) => {
     .exec();
 
   const filteredFavorites = favorites.filter(favorite => favorite.teacher);
+  const teachers = filteredFavorites.map(favorite => favorite.teacher);
 
-  res.status(200).json(filteredFavorites);
+  res.status(200).json(teachers);
 });
 
 export default getAllFavorites;

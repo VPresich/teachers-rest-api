@@ -3,7 +3,7 @@ import ctrlWrapper from '../../helpers/ctrlWrapper.js';
 import HttpError from '../../helpers/HttpError.js';
 import Teacher from '../../models/teacher.js';
 
-const createFavorite = ctrlWrapper(async (req, res, next) => {
+const addFavorite = ctrlWrapper(async (req, res, next) => {
   const { id: userId } = req.user;
   const { idTeacher } = req.params;
 
@@ -21,12 +21,12 @@ const createFavorite = ctrlWrapper(async (req, res, next) => {
     throw HttpError(409, 'Favorite already exists');
   }
 
-  const favorite = await Favorite.create({
+  let favorite = await Favorite.create({
     user: userId,
     teacher: idTeacher,
   });
-
+  favorite = await favorite.populate('teacher');
   res.status(201).json(favorite);
 });
 
-export default createFavorite;
+export default addFavorite;
