@@ -38,7 +38,7 @@ const googleRedirect = ctrlWrapper(async (req, res, next) => {
   const { id, name, email } = userDataResponse.data;
   const emailInLowerCase = email.toLowerCase();
 
-  const frontEndURL = `${process.env.FRONTEND_BASE_URL}welcome`;
+  const frontEndURL = `${process.env.FRONTEND_BASE_URL}`;
 
   let user = await User.findOne({ googleId: id });
 
