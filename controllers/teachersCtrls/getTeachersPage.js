@@ -23,8 +23,6 @@ const getTeachersPage = ctrlWrapper(async (req, res, next) => {
     query.price_per_hour = { $lte: parseFloat(price_per_hour) };
   }
 
-  console.log('query', query);
-
   const totalRecords = await Teacher.countDocuments(query);
   const totalPages = Math.ceil(totalRecords / limitNumber);
 
