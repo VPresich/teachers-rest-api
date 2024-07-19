@@ -22,6 +22,10 @@
       "description": "Get teachers."
     },
     {
+      "name": "Favorites",
+      "description": "Favorites endpoints. Add, remove favorite teacher for registered user. Get all favorites for registered user."
+    },
+    {
       "name": "Help",
       "description": "Send email"
     },
@@ -584,6 +588,208 @@
         }
       }
     },
+    "/favorites": {
+      "get": {
+        "summary": "Get all favorite teachers for current user",
+        "tags": ["Favorites"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of favorite teachers",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/TeacherResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BadLoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/favorites/{idTeacher}": {
+      "post": {
+        "summary": "Add a teacher to favorites for current user",
+        "tags": ["Favorites"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idTeacher",
+            "in": "path",
+            "required": true,
+            "description": "ID of the teacher to add to favorites",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Favorite added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "string"
+                    },
+                    "teacher": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/TeacherResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BadLoginResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Teacher not found"
+          },
+          "409": {
+            "description": "Favorite alredy added for current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/FavoriteIsAdded"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove a teacher from favorites for current user",
+        "tags": ["Favorites"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idTeacher",
+            "in": "path",
+            "required": true,
+            "description": "ID of the teacher to add to favorites",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Favorite delete successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    },
+                    "teacher": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BadLoginResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this favorite"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Teacher not found"
+          }
+        }
+      }
+    },
 
     "/helps": {
       "post": {
@@ -641,7 +847,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
                   "$ref": "#/components/schemas/ErrorUnauthorizedResponse"
                 }
               }
@@ -1033,6 +1238,18 @@
         },
         "example": {
           "message": "Email in use"
+        }
+      },
+
+      "FavoriteIsAdded": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "message": "Favorite already exists"
         }
       },
 
