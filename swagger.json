@@ -11,7 +11,7 @@
   },
   "consumes": ["multipart/form-data", "application/json"],
   "produces": ["application/json"],
-  "servers": [{ "url": "http://localhost:8080/api" }],
+  "servers": [{ "url": "https://teachers-rest-api.onrender.com/api" }],
   "tags": [
     {
       "name": "Users",
