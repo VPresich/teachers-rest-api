@@ -7,6 +7,10 @@ const addFavorite = ctrlWrapper(async (req, res, next) => {
   const { id: userId } = req.user;
   const { idTeacher } = req.params;
 
+  if (!userId || !idTeacher) {
+    throw HttpError(400, 'Missing required parameters');
+  }
+
   const teacher = await Teacher.findById(idTeacher);
   if (!teacher) {
     throw HttpError(404, 'Teacher not found');
