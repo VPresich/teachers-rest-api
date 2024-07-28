@@ -6,7 +6,7 @@ const deleteFavorite = ctrlWrapper(async (req, res, next) => {
   const { id: userId } = req.user;
   const { idTeacher } = req.params;
 
-  if (!userId || !idNanny) {
+  if (!userId || !idTeacher) {
     throw HttpError(400, 'Missing required parameters');
   }
 

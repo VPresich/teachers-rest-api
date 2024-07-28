@@ -1,16 +1,14 @@
 import { Schema, mongoose } from 'mongoose';
-const themeSchema = new Schema(
+const tokenSchema = new Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    color: {
+    token: {
       type: String,
-      required: true,
-      enum: ['red', 'blue', 'green', 'yellow', 'pink'],
-      default: 'yellow',
+      default: null,
     },
     app: {
       type: String,
@@ -22,4 +20,4 @@ const themeSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-export default mongoose.model('Theme', themeSchema);
+export default mongoose.model('Token', tokenSchema);

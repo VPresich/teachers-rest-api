@@ -5,6 +5,7 @@ export const registerSchema = Joi.object({
   name: Joi.string().required().pattern(NAME_PATTERN),
   email: Joi.string().required().pattern(EMAIL_PATTERN),
   password: Joi.string().required().min(6),
+  app: Joi.string().valid('teachers', 'nannies'),
 });
 
 export const emailSchema = Joi.object({
@@ -14,6 +15,7 @@ export const emailSchema = Joi.object({
 export const loginSchema = Joi.object({
   email: Joi.string().required().pattern(EMAIL_PATTERN),
   password: Joi.string().required().min(6),
+  app: Joi.string().valid('teachers', 'nannies'),
 });
 
 export const profileSchema = Joi.object({
@@ -27,8 +29,9 @@ export const profileSchema = Joi.object({
 });
 
 export const themeSchema = Joi.object({
-  theme: Joi.string()
+  color: Joi.string()
     .valid('yellow', 'green', 'blue', 'pink', 'red')
     .insensitive()
     .required(),
+  app: Joi.string().valid('teachers', 'nannies').insensitive().required(),
 });
