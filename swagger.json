@@ -2,10 +2,10 @@
   "openapi": "3.0.1",
   "info": {
     "version": "2.0.2",
-    "title": "API for React Task Pro application",
-    "description": "REST API for managing users, boards, columns, tasks in React Task Pro application",
+    "title": "API for React Teachers, Nannies and Psychologists applications",
+    "description": "REST API for managing users, Lingo teachers, Nannies services and Psychologists services applications",
     "license": {
-      "name": "Lingo Teachers project",
+      "name": "Back end for Lingo Teachers project, Nannies services project and Psychologists services project",
       "url": "https://github.com/VPresich/teachers-rest-api"
     }
   },
@@ -19,7 +19,11 @@
     },
     {
       "name": "Teachers",
-      "description": "Get teachers."
+      "description": "Get all teachers, get the teacher by id, delete the teach by id, get favorites teacher, delete favorite teacher."
+    },
+    {
+      "name": "Nannies",
+      "description": "Get all nannies, get the nanny by id, delete nanny by id, get favorites nannies, delete favorite nanny."
     },
     {
       "name": "Favorites",
@@ -545,13 +549,13 @@
     "/teachers/{id}": {
       "get": {
         "tags": ["Teachers"],
-        "summary": "Get teachers based on filters",
+        "summary": "Get teacher by Id",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "description": "The ID of the teacher to retrieve.",
+            "description": "The Id of the teacher to retrieve.",
             "schema": {
               "type": "string",
               "example": "6691060d059f7e247d62a761"
@@ -564,7 +568,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TeachersResponse"
+                  "$ref": "#/components/schemas/TeacherResponse"
                 }
               }
             }
@@ -650,7 +654,7 @@
             "name": "idTeacher",
             "in": "path",
             "required": true,
-            "description": "ID of the teacher to add to favorites",
+            "description": "Id of the teacher to add to favorites",
             "schema": {
               "type": "string"
             }
@@ -691,7 +695,7 @@
             "description": "Teacher not found"
           },
           "409": {
-            "description": "Favorite alredy added for current user",
+            "description": "Favorite already added for current user",
             "content": {
               "application/json": {
                 "schema": {
@@ -720,7 +724,340 @@
             "name": "idTeacher",
             "in": "path",
             "required": true,
-            "description": "ID of the teacher to add to favorites",
+            "description": "ID of the teacher for deleting from favorites",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Favorite delete successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    },
+                    "teacher": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BadLoginResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this favorite"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Teacher not found"
+          }
+        }
+      }
+    },
+    "/nannies": {
+      "get": {
+        "tags": ["Nannies"],
+        "summary": "Get nannies based on filters",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Filter by certain fields (e.g., price_per_hour, location, etc.)",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "example": {
+                "price_per_hour": { "$gt": 10 }
+              }
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria (e.g., A to Z, Z to A, Popular, Not Popular)",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "example": {
+                "name": 1,
+                "rating": -1
+              }
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default: 1)",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of results per page (default: 4)",
+            "schema": {
+              "type": "integer",
+              "default": 4
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/NanniesResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Page not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Page not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nannies/{id}": {
+      "get": {
+        "tags": ["Nannies"],
+        "summary": "Get nanny by Id",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "The Id of the nanny to retrieve.",
+            "schema": {
+              "type": "string",
+              "example": "6691060d059f7e247d62a761"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NannyResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nanny not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Nanny not found"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nannies/favorites": {
+      "get": {
+        "summary": "Get all favorite nannies for current user",
+        "tags": ["Favorites"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of favorite nannies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/NannyResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BadLoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/nannies/favorites/{idNanny}": {
+      "post": {
+        "summary": "Add a nanny to favorites for current user",
+        "tags": ["Favorites"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idNanny",
+            "in": "path",
+            "required": true,
+            "description": "Id of the nanny to add to favorites",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Favorite added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "string"
+                    },
+                    "teacher": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/NannyResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BadLoginResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Nanny not found"
+          },
+          "409": {
+            "description": "Favorite already added for current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/FavoriteIsAdded"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove the nanny from favorites for current user",
+        "tags": ["Favorites"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idTeacher",
+            "in": "path",
+            "required": true,
+            "description": "Id of the nanny for deleting from favorites",
             "schema": {
               "type": "string"
             }
@@ -1153,6 +1490,131 @@
               "$ref": "#/components/schemas/TeacherResponse"
             },
             "description": "List of teachers matching the query criteria"
+          }
+        }
+      },
+
+      "NannyResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "The nanny ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "The nanny's name",
+            "example": "Jane Doe",
+            "pattern": "NAME_PATTERN"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "URL of the avatar image",
+            "format": "url",
+            "example": "https://example.com/avatar.jpg"
+          },
+          "birthday": {
+            "type": "string",
+            "format": "date",
+            "description": "The nanny's date of birth",
+            "example": "1990-05-15"
+          },
+          "experience": {
+            "type": "string",
+            "description": "The nanny's experience in years",
+            "example": "5 years"
+          },
+          "reviews": {
+            "type": "array",
+            "description": "List of reviews for the nanny",
+            "items": {
+              "type": "object",
+              "required": ["reviewer", "rating", "comment"],
+              "properties": {
+                "reviewer": {
+                  "type": "string",
+                  "description": "The name of the reviewer",
+                  "example": "John Smith"
+                },
+                "rating": {
+                  "type": "number",
+                  "description": "The rating given by the reviewer",
+                  "example": 4.5
+                },
+                "comment": {
+                  "type": "string",
+                  "description": "The review comment",
+                  "example": "Very good nanny"
+                }
+              }
+            }
+          },
+          "price_per_hour": {
+            "type": "number",
+            "description": "The hourly rate for the nanny",
+            "example": 20
+          },
+          "education": {
+            "type": "string",
+            "description": "The nanny's education level",
+            "example": "Early Childhood Education"
+          },
+          "kids_age": {
+            "type": "string",
+            "description": "The age group of children the nanny works with",
+            "example": "3-5 years"
+          },
+          "location": {
+            "type": "string",
+            "description": "The nanny's location",
+            "example": "New York, USA"
+          },
+          "about": {
+            "type": "string",
+            "description": "A brief description about the nanny",
+            "example": "I love children and have been working with them for over 5 years."
+          },
+          "characters": {
+            "type": "array",
+            "description": "Key characteristics of the nanny",
+            "items": {
+              "type": "string",
+              "example": "Responsibility"
+            }
+          },
+          "rating": {
+            "type": "number",
+            "description": "The overall rating of the nanny",
+            "example": 4.7
+          }
+        }
+      },
+
+      "NanniesResponse": {
+        "type": "object",
+        "properties": {
+          "totalRecords": {
+            "type": "integer",
+            "description": "Total number of records matching the query"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "Total number of pages based on the limit"
+          },
+          "page": {
+            "type": "integer",
+            "description": "Current page number"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Number of results per page"
+          },
+          "nanies": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NannyResponse"
+            },
+            "description": "List of nannies matching the query criteria"
           }
         }
       },
