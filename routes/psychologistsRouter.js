@@ -5,7 +5,7 @@ import authMiddleware from '../helpers/authMiddleware.js';
 
 const psychologistsRouter = express.Router();
 
-psychologistsRouter.get('/', psychologistsCtrls.getAllPsychologists);
+psychologistsRouter.get('/', psychologistsCtrls.getPsychologistsPage);
 
 psychologistsRouter.get(
   '/favorites',

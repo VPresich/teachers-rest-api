@@ -9,7 +9,7 @@ const getPsychologistsPage = ctrlWrapper(async (req, res, next) => {
   const limitNumber = parseInt(limit, 10);
   const startIndex = (pageNumber - 1) * limitNumber;
 
-  const totalRecords = await Nanny.countDocuments(query);
+  const totalRecords = await Psychologist.countDocuments(query);
   const totalPages = Math.ceil(totalRecords / limitNumber);
 
   if (pageNumber > totalPages) {
@@ -37,7 +37,7 @@ const getPsychologistsPage = ctrlWrapper(async (req, res, next) => {
     totalPages,
     page: pageNumber,
     limit: limitNumber,
-    nannies,
+    psychologists,
   };
 
   res.status(200).json(result);
