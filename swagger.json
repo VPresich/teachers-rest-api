@@ -19,15 +19,19 @@
     },
     {
       "name": "Teachers",
-      "description": "Get all teachers, get the teacher by id, delete the teach by id, get favorites teacher, delete favorite teacher."
+      "description": "Get all teachers, get the teacher by id."
     },
     {
       "name": "Nannies",
-      "description": "Get all nannies, get the nanny by id, delete nanny by id, get favorites nannies, delete favorite nanny."
+      "description": "Get all nannies, get the nanny by id."
+    },
+    {
+      "name": "Psychologists",
+      "description": "Get all psychologists, get the psychologist by id."
     },
     {
       "name": "Favorites",
-      "description": "Favorites endpoints. Add, remove favorite teacher for registered user. Get all favorites for registered user."
+      "description": "Favorites endpoints. Add, remove favorite teacher/nanny/psychologist for registered user. Get all favorites teachers/nannies/ psychologists for registered user."
     },
     {
       "name": "Help",
@@ -802,7 +806,7 @@
           {
             "name": "query",
             "in": "query",
-            "description": "Filter by certain fields (e.g., price_per_hour, location, etc.)",
+            "description": "Filter by certain fields (price_per_hour)",
             "required": false,
             "schema": {
               "type": "object",
@@ -1004,7 +1008,7 @@
                     "user": {
                       "type": "string"
                     },
-                    "teacher": {
+                    "nanny": {
                       "type": "object",
                       "$ref": "#/components/schemas/NannyResponse"
                     }
@@ -1025,7 +1029,7 @@
             }
           },
           "404": {
-            "description": "Nanny not found"
+            "description": "The nanny not found"
           },
           "409": {
             "description": "Favorite already added for current user",
@@ -1054,7 +1058,7 @@
             }
           },
           {
-            "name": "idTeacher",
+            "name": "idNanny",
             "in": "path",
             "required": true,
             "description": "Id of the nanny for deleting from favorites",
@@ -1077,7 +1081,7 @@
                     "user": {
                       "type": "string"
                     },
-                    "teacher": {
+                    "nanny": {
                       "type": "string"
                     },
                     "createdAt": {
@@ -1122,7 +1126,296 @@
             }
           },
           "404": {
-            "description": "Teacher not found"
+            "description": "The Nanny not found"
+          }
+        }
+      }
+    },
+
+    "/psychologists/favorites": {
+      "get": {
+        "summary": "Get all favorite psychologists for current user",
+        "tags": ["Favorites"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of favorite psychologists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/PsycologistResponse"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BadLoginResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/psychologists/favorites/{idPsychologist}": {
+      "post": {
+        "summary": "Add a psychologist to favorites for current user",
+        "tags": ["Favorites"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idPsychologist",
+            "in": "path",
+            "required": true,
+            "description": "Id of the idPsychologist to add to favorites",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Favorite added successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "user": {
+                      "type": "string"
+                    },
+                    "psychologist": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/PsychologistResponse"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BadLoginResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Psychologist not found"
+          },
+          "409": {
+            "description": "Favorite already added for current user",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/FavoriteIsAdded"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove the psychologist from favorites for current user",
+        "tags": ["Favorites"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "description": "Bearer token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "idPsychologist",
+            "in": "path",
+            "required": true,
+            "description": "Id of the psychologist for deleting from favorites",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Favorite delete successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string"
+                    },
+                    "user": {
+                      "type": "string"
+                    },
+                    "psyhologist": {
+                      "type": "string"
+                    },
+                    "createdAt": {
+                      "type": "string"
+                    },
+                    "updatedAt": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BadLoginResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  }
+                },
+                "example": {
+                  "message": "You are not the owner of this favorite"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Psychologist not found"
+          }
+        }
+      }
+    },
+
+    "/psychologists": {
+      "get": {
+        "tags": ["Psychologists"],
+        "summary": "Get psychologists based on filters",
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Filter by certain fields (price_per_hour)",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "example": {
+                "price_per_hour": { "$gt": 10 }
+              }
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria (e.g., A to Z, Z to A, Popular, Not Popular)",
+            "required": false,
+            "schema": {
+              "type": "object",
+              "example": {
+                "name": 1,
+                "rating": -1
+              }
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number (default: 1)",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Number of results per page (default: 4)",
+            "schema": {
+              "type": "integer",
+              "default": 4
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Empty request body",
+          "content": {},
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/PsychologistsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Page not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Page not found"
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1615,6 +1908,121 @@
               "$ref": "#/components/schemas/NannyResponse"
             },
             "description": "List of nannies matching the query criteria"
+          }
+        }
+      },
+
+      "PsychologistResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "description": "The psychologist's ID",
+            "example": "66fd08796f48ecab4e3cf237"
+          },
+          "name": {
+            "type": "string",
+            "description": "The psychologist's name",
+            "example": "Dr. Benjamin Smith"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "URL of the psychologist's avatar image",
+            "format": "url",
+            "example": "https://ftp.goit.study/img/avatars/19.jpg"
+          },
+          "experience": {
+            "type": "string",
+            "description": "The psychologist's experience in years",
+            "example": "20 years"
+          },
+          "reviews": {
+            "type": "array",
+            "description": "List of reviews for the psychologist",
+            "items": {
+              "type": "object",
+              "properties": {
+                "_id": {
+                  "type": "string",
+                  "description": "The review ID",
+                  "example": "66fd80b5fa5b24921423aec4"
+                },
+                "reviewer": {
+                  "type": "string",
+                  "description": "The name of the reviewer",
+                  "example": "Emily Turner"
+                },
+                "rating": {
+                  "type": "number",
+                  "description": "The rating given by the reviewer",
+                  "example": 4.9
+                },
+                "comment": {
+                  "type": "string",
+                  "description": "The review comment",
+                  "example": "Dr. Smith is an exceptional psychologist. His guidance has been life-changing for me."
+                }
+              }
+            }
+          },
+          "price_per_hour": {
+            "type": "number",
+            "description": "The hourly rate for the psychologist",
+            "example": 190
+          },
+          "rating": {
+            "type": "number",
+            "description": "The overall rating of the psychologist",
+            "example": 4.8
+          },
+          "license": {
+            "type": "string",
+            "description": "The psychologist's license information",
+            "example": "Licensed Psychologist (License #67890)"
+          },
+          "specialization": {
+            "type": "string",
+            "description": "The psychologist's area of specialization",
+            "example": "Couples Counseling"
+          },
+          "initial_consultation": {
+            "type": "string",
+            "description": "Information about the initial consultation",
+            "example": "Free 45-minute initial consultation"
+          },
+          "about": {
+            "type": "string",
+            "description": "A brief description about the psychologist",
+            "example": "Dr. Benjamin Smith is a highly experienced and licensed psychologist specializing in Couples Counseling..."
+          }
+        }
+      },
+
+      "PsychologistsResponse": {
+        "type": "object",
+        "properties": {
+          "totalRecords": {
+            "type": "integer",
+            "description": "Total number of records matching the query"
+          },
+          "totalPages": {
+            "type": "integer",
+            "description": "Total number of pages based on the limit"
+          },
+          "page": {
+            "type": "integer",
+            "description": "Current page number"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Number of results per page"
+          },
+          "psychologists": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PsychologistResponse"
+            },
+            "description": "List of psychologists matching the query criteria"
           }
         }
       },

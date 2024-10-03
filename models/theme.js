@@ -15,7 +15,7 @@ const themeSchema = new Schema(
     app: {
       type: String,
       required: true,
-      enum: ['teachers', 'nannies'],
+      enum: ['teachers', 'nannies', 'psyhologist'],
       default: 'teachers',
     },
   },

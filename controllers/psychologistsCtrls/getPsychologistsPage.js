@@ -1,8 +1,8 @@
-import Nanny from '../../models/nanny.js';
+import Psychologist from '../../models/psychologist.js';
 import HttpError from '../../helpers/HttpError.js';
 import ctrlWrapper from '../../helpers/ctrlWrapper.js';
 
-const getNanniesPage = ctrlWrapper(async (req, res, next) => {
+const getPsychologistsPage = ctrlWrapper(async (req, res, next) => {
   const { page = 1, limit = 4, query, sort } = req.query;
 
   const pageNumber = parseInt(page, 10);
@@ -16,18 +16,20 @@ const getNanniesPage = ctrlWrapper(async (req, res, next) => {
     throw HttpError(404, 'Page not found');
   }
 
-  let nannies;
+  let psychologists;
 
   if (sort) {
     Object.keys(sort).forEach(key => {
       sort[key] = parseInt(sort[key], 10);
     });
-    nannies = await Nanny.find(query)
+    psychologists = await Psychologist.find(query)
       .sort(sort)
       .limit(limitNumber)
       .skip(startIndex);
   } else {
-    nannies = await Nanny.find(query).limit(limitNumber).skip(startIndex);
+    psychologists = await Psychologist.find(query)
+      .limit(limitNumber)
+      .skip(startIndex);
   }
 
   const result = {
@@ -41,4 +43,4 @@ const getNanniesPage = ctrlWrapper(async (req, res, next) => {
   res.status(200).json(result);
 });
 
-export default getNanniesPage;
+export default getPsychologistsPage;
