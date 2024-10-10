@@ -6,7 +6,7 @@ const psyhologistFavoriteSchema = new Schema(
       ref: 'User',
       required: true,
     },
-    nanny: {
+    psychologist: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Psychologist',
       required: true,

@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import getDefaultAppColor from '../../helpers/getDefaultAppColor.js';
 import User from '../../models/user.js';
 import HttpError from '../../helpers/HttpError.js';
 import Theme from '../../models/theme.js';
@@ -9,7 +10,7 @@ import ctrlWrapper from '../../helpers/ctrlWrapper.js';
 const login = ctrlWrapper(async (req, res, next) => {
   const { email, password, app = 'teachers' } = req.body;
 
-  const defaultColor = app === 'teachers' ? 'yellow' : 'red';
+  const defaultColor = getDefaultAppColor(app);
 
   const emailInLowerCase = email.toLowerCase();
 

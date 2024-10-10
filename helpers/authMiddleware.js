@@ -1,5 +1,6 @@
 import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
+import getDefaultAppColor from './getDefaultAppColor.js';
 import HttpError from './HttpError.js';
 import Token from '../models/token.js';
 import Theme from '../models/theme.js';
@@ -36,7 +37,7 @@ const authMiddleware = async (req, _, next) => {
       }
 
       const userTheme = await Theme.findOne({ user: user._id, app: appHeader });
-      const defaultColor = appHeader === 'teachers' ? 'yellow' : 'red';
+      const defaultColor = getDefaultAppColor(appHeader);
 
       // if (!user || user.token !== token) {
       //   throw HttpError(401);

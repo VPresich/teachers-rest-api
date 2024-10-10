@@ -4,6 +4,7 @@ import crypto from 'node:crypto';
 import User from '../../models/user.js';
 import Theme from '../../models/theme.js';
 import Token from '../../models/token.js';
+import getDefaultAppColor from '../../helpers/getDefaultAppColor.js';
 import HttpError from '../../helpers/HttpError.js';
 import ctrlWrapper from '../../helpers/ctrlWrapper.js';
 import sendVerificationToken from '../../helpers/sendVerificationToken.js';
@@ -12,7 +13,7 @@ import { PATH_DEF_LIGHT_AVATAR } from '../../helpers/constants.js';
 const register = ctrlWrapper(async (req, res, next) => {
   const { name, email, password, app = 'teachers' } = req.body;
 
-  const defaultColor = app === 'teachers' ? 'yellow' : 'red';
+  const defaultColor = getDefaultAppColor(app);
 
   const emailInLowerCase = email.toLowerCase();
   const user = await User.findOne({ email: emailInLowerCase });
@@ -59,7 +60,7 @@ const register = ctrlWrapper(async (req, res, next) => {
       name: newUser.name,
       email: newUser.email,
       avatarURL: newUser.avatarURL,
-      theme: theme.color,
+      theme: theme?.color || defaultColor,
     },
   });
 });
