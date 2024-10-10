@@ -1,5 +1,5 @@
 import { Schema, mongoose } from 'mongoose';
-const psyhologistFavoriteSchema = new Schema(
+const psychologistFavoriteSchema = new Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -15,4 +15,7 @@ const psyhologistFavoriteSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
-export default mongoose.model('Psyhologistfavorite', psyhologistFavoriteSchema);
+export default mongoose.model(
+  'Psychologistfavorite',
+  psychologistFavoriteSchema
+);

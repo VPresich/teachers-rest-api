@@ -1,6 +1,6 @@
 import express from 'express';
 import psychologistsCtrls from '../controllers/psychologistsCtrls/index.js';
-import psychologistsFavoriteCtrls from '../controllers/psyhologistsFavoriteCtrls/index.js';
+import psychologistsFavoriteCtrls from '../controllers/psychologistsFavoriteCtrls/index.js';
 import authMiddleware from '../helpers/authMiddleware.js';
 
 const psychologistsRouter = express.Router();

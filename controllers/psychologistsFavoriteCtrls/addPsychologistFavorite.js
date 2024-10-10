@@ -30,7 +30,7 @@ const addPsychologistFavorite = ctrlWrapper(async (req, res, next) => {
     psychologist: idPsychologist,
   });
 
-  psychologist = await favorite.populate('psychologist');
+  favorite = await favorite.populate('psychologist');
 
   res.status(201).json(favorite);
 });
