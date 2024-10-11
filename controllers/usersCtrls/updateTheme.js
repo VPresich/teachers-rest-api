@@ -6,7 +6,6 @@ import Theme from '../../models/theme.js';
 const updateTheme = ctrlWrapper(async (req, res, next) => {
   const { id, app } = req.user;
   const { color } = req.body;
-  console.log('APP', app);
   const user = await User.findById(id);
   if (!user) {
     throw HttpError(404, 'User not found');

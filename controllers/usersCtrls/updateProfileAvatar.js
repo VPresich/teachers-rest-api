@@ -8,7 +8,6 @@ import { deleteFile } from '../../helpers/imageUtiles.js';
 
 export const updateProfile = ctrlWrapper(async (req, res, next) => {
   const { name, email, password, theme } = req.body;
-  console.log('NAME:', name);
   const { id } = req.user;
   const { path: tempUpload } = req.file;
 

@@ -4,6 +4,9 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { URL } from 'url';
 import User from '../../models/user.js';
+import Theme from '../../models/theme.js';
+import Token from '../../models/token.js';
+import getDefaultAppColor from '../../helpers/getDefaultAppColor.js';
 import { PATH_DEF_LIGHT_AVATAR } from '../../helpers/constants.js';
 
 import ctrlWrapper from '../../helpers/ctrlWrapper.js';
@@ -11,9 +14,11 @@ import HttpError from '../../helpers/HttpError.js';
 
 const googleRedirect = ctrlWrapper(async (req, res, next) => {
   const fullUrl = `${req.protocol}://${req.get('host')}${req.originalUrl}`;
+
   const urlObj = new URL(fullUrl);
   const urlParams = queryString.parse(urlObj.search);
   const code = urlParams.code;
+  const app = urlParams.state || 'teachers';
   const tokenResponse = await axios({
     url: 'https://oauth2.googleapis.com/token',
     method: 'post',
@@ -75,6 +80,21 @@ const googleRedirect = ctrlWrapper(async (req, res, next) => {
 
   user.token = token;
   await user.save();
+
+  let userToken = await Token.findOne({ user: user._id, app });
+  if (userToken) {
+    userToken.token = token;
+    await userToken.save();
+  } else {
+    await Token.create({ user: user._id, app, token });
+  }
+
+  const defaultColor = getDefaultAppColor(app);
+  let theme = await Theme.findOne({ user: user._id, app });
+
+  if (!theme) {
+    theme = await Theme.create({ user: user._id, app, color: defaultColor });
+  }
 
   return res.redirect(`${frontEndURL}?token=${token}`);
 });

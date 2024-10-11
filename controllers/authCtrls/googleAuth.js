@@ -2,6 +2,7 @@ import ctrlWrapper from '../../helpers/ctrlWrapper.js';
 import queryString from 'query-string';
 
 const googleAuth = ctrlWrapper(async (req, res, next) => {
+  const { app = 'teachers' } = req.query;
   const redirectURI = `${process.env.BACKEND_BASE_URL}/users/google-redirect`;
 
   const stringifiedParams = queryString.stringify({
@@ -14,6 +15,7 @@ const googleAuth = ctrlWrapper(async (req, res, next) => {
     response_type: 'code',
     access_type: 'offline',
     prompt: 'consent',
+    state: app,
   });
 
   const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?${stringifiedParams}`;
