@@ -7,6 +7,7 @@ import docRouter from './docs.js';
 import backgroundsRouter from './backgrounds.js';
 import nanniesRouter from './nanniesRouter.js';
 import psychologistsRouter from './psychologistsRouter.js';
+import dataAnalysisRouter from './dataAnalysisRouter.js';
 
 const routers = express.Router();
 routers.use('/help', helpRouter);
@@ -17,5 +18,6 @@ routers.use('/teachers', teachersRouter);
 routers.use('/favorites', favoritesRouter);
 routers.use('/nannies', nanniesRouter);
 routers.use('/psychologists', psychologistsRouter);
+routers.use('/data', dataAnalysisRouter);
 
 export default routers;
