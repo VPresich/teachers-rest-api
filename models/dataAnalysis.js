@@ -26,9 +26,9 @@ const createDataModel = collectionName => {
   return model('DataAnalysis', dataSchema, collectionName);
 };
 
-export const DataAnalysis3 = createDataModel('filterdata3_1_cobra');
+export const DataAnalysis3 = createDataModel('filterdata3_cobra');
 export const DataAnalysis4 = createDataModel('filterdata4_1_cobra');
-export const DataAnalysis5 = createDataModel('filterdata5_1_cobra');
+export const DataAnalysis5 = createDataModel('filterdata5_001');
 export const DataAnalysis6 = createDataModel('filterdata6_1_cobra');
 export const DataAnalysis7 = createDataModel('filterdata7_1_cobra');
 export const DataAnalysis8 = createDataModel('filterdata8_1_cobra');
