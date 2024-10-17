@@ -33,6 +33,7 @@ const register = ctrlWrapper(async (req, res, next) => {
     password: hashPassword,
     avatarURL,
     verificationToken,
+    verify: false,
   });
 
   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
