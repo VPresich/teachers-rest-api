@@ -13,7 +13,7 @@ const tokenSchema = new Schema(
     app: {
       type: String,
       required: true,
-      enum: ['teachers', 'nannies', 'psychologists'],
+      enum: ['teachers', 'nannies', 'psychologists', 'dataanalysis'],
       default: 'teachers',
     },
   },

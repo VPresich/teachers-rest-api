@@ -11,6 +11,9 @@ const getDefaultAppColor = app => {
     case 'psychologists':
       color = 'green';
       break;
+    case 'dataanalysis':
+      color = 'green';
+      break;
     default:
       color = 'yellow';
   }
