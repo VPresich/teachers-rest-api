@@ -7,6 +7,7 @@ import User from '../../models/user.js';
 import Theme from '../../models/theme.js';
 import Token from '../../models/token.js';
 import getDefaultAppColor from '../../helpers/getDefaultAppColor.js';
+import getFrontendRedirect from '../../helpers/getFrontendRedirect.js';
 import { PATH_DEF_LIGHT_AVATAR } from '../../helpers/constants.js';
 
 import ctrlWrapper from '../../helpers/ctrlWrapper.js';
@@ -43,7 +44,7 @@ const googleRedirect = ctrlWrapper(async (req, res, next) => {
   const { id, name, email } = userDataResponse.data;
   const emailInLowerCase = email.toLowerCase();
 
-  const frontEndURL = `${process.env.FRONTEND_BASE_URL}`;
+  const frontEndURL = getFrontendRedirect(app);
 
   let user = await User.findOne({ googleId: id });
 
