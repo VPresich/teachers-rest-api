@@ -26,10 +26,13 @@ const createDataModel = collectionName => {
   return model('DataAnalysis', dataSchema, collectionName);
 };
 
-export const DataAnalysis3 = createDataModel('filterdata3_1_cobra');
-// export const DataAnalysis3 = createDataModel('filterdata3_1_edit');
-export const DataAnalysis4 = createDataModel('filterdata3_cobra');
-export const DataAnalysis5 = createDataModel('filterdata3_3dcobra');
-export const DataAnalysis6 = createDataModel('filterdata3_1_3dcobra');
-export const DataAnalysis7 = createDataModel('filterdata8_3dcobra');
-export const DataAnalysis8 = createDataModel('filterdata8_1_3dcobra');
+export const DataAnalysis31 = createDataModel('filter2d_3');
+export const DataAnalysis32 = createDataModel('filter3d_3');
+export const DataAnalysis33 = createDataModel('filter2d_3det');
+export const DataAnalysis34 = createDataModel('filter3d_3det');
+export const DataAnalysis35 = createDataModel('filter3d_3a0');
+
+export const DataAnalysis81 = createDataModel('filter2d_8');
+export const DataAnalysis82 = createDataModel('filter3d_8');
+export const DataAnalysis83 = createDataModel('filter2d_8det');
+export const DataAnalysis84 = createDataModel('filter3d_8det');

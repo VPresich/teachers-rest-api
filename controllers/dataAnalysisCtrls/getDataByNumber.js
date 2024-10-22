@@ -1,10 +1,13 @@
 import {
-  DataAnalysis3,
-  DataAnalysis4,
-  DataAnalysis5,
-  DataAnalysis6,
-  DataAnalysis7,
-  DataAnalysis8,
+  DataAnalysis31,
+  DataAnalysis32,
+  DataAnalysis33,
+  DataAnalysis34,
+  DataAnalysis35,
+  DataAnalysis81,
+  DataAnalysis82,
+  DataAnalysis83,
+  DataAnalysis84,
 } from '../../models/dataAnalysis.js';
 import ctrlWrapper from '../../helpers/ctrlWrapper.js';
 
@@ -15,23 +18,35 @@ const getDataByNumber = ctrlWrapper(async (req, res, next) => {
 
   let dataRecords;
   switch (numValue) {
-    case 4:
-      dataRecords = await DataAnalysis4.find({ TrackNum: { $gt: 0 } });
+    case 31:
+      dataRecords = await DataAnalysis31.find({ TrackNum: { $gt: 0 } });
       break;
-    case 5:
-      dataRecords = await DataAnalysis5.find({ TrackNum: { $gt: 0 } });
+    case 32:
+      dataRecords = await DataAnalysis32.find({ TrackNum: { $gt: 0 } });
       break;
-    case 6:
-      dataRecords = await DataAnalysis6.find({ TrackNum: { $gt: 0 } });
+    case 33:
+      dataRecords = await DataAnalysis33.find({ TrackNum: { $gt: 0 } });
       break;
-    case 7:
-      dataRecords = await DataAnalysis7.find({ TrackNum: { $gt: 0 } });
+    case 34:
+      dataRecords = await DataAnalysis34.find({ TrackNum: { $gt: 0 } });
       break;
-    case 8:
-      dataRecords = await DataAnalysis8.find({ TrackNum: { $gt: 0 } });
+    case 35:
+      dataRecords = await DataAnalysis35.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 81:
+      dataRecords = await DataAnalysis81.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 82:
+      dataRecords = await DataAnalysis82.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 83:
+      dataRecords = await DataAnalysis83.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 84:
+      dataRecords = await DataAnalysis84.find({ TrackNum: { $gt: 0 } });
       break;
     default:
-      dataRecords = await DataAnalysis3.find({ TrackNum: { $gt: 0 } });
+      dataRecords = await DataAnalysis31.find({ TrackNum: { $gt: 0 } });
       break;
   }
 
