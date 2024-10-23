@@ -31,6 +31,7 @@ export const DataAnalysis32 = createDataModel('filter3d_3');
 export const DataAnalysis33 = createDataModel('filter2d_3det');
 export const DataAnalysis34 = createDataModel('filter3d_3det');
 export const DataAnalysis35 = createDataModel('filter3d_3a0');
+export const DataAnalysis36 = createDataModel('filter3d_3det_a0');
 
 export const DataAnalysis81 = createDataModel('filter2d_8');
 export const DataAnalysis82 = createDataModel('filter3d_8');

@@ -4,6 +4,7 @@ import {
   DataAnalysis33,
   DataAnalysis34,
   DataAnalysis35,
+  DataAnalysis36,
   DataAnalysis81,
   DataAnalysis82,
   DataAnalysis83,
@@ -32,6 +33,9 @@ const getDataByNumber = ctrlWrapper(async (req, res, next) => {
       break;
     case 35:
       dataRecords = await DataAnalysis35.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 36:
+      dataRecords = await DataAnalysis36.find({ TrackNum: { $gt: 0 } });
       break;
     case 81:
       dataRecords = await DataAnalysis81.find({ TrackNum: { $gt: 0 } });
