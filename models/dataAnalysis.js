@@ -37,8 +37,8 @@ export const DataAnalysis38 = createDataModel('filterdata2d_3det_a0');
 
 export const DataAnalysis81 = createDataModel('filterdata3d_8tr');
 export const DataAnalysis82 = createDataModel('filterdata2d_8tr');
-export const DataAnalysis83 = createDataModel('filterdata2d_8det');
-export const DataAnalysis84 = createDataModel('filterdata3d_8det');
+export const DataAnalysis83 = createDataModel('filterdata3d_8det');
+export const DataAnalysis84 = createDataModel('filterdata2d_8det');
 export const DataAnalysis85 = createDataModel('filterdata3d_8tr_a0');
 export const DataAnalysis86 = createDataModel('filterdata2d_8tr_a0');
 export const DataAnalysis87 = createDataModel('filterdata3d_8det_a0');
