@@ -26,14 +26,20 @@ const createDataModel = collectionName => {
   return model('DataAnalysis', dataSchema, collectionName);
 };
 
-export const DataAnalysis31 = createDataModel('filter2d_3');
-export const DataAnalysis32 = createDataModel('filter3d_3');
-export const DataAnalysis33 = createDataModel('filter2d_3det');
-export const DataAnalysis34 = createDataModel('filter3d_3det');
-export const DataAnalysis35 = createDataModel('filter3d_3a0');
-export const DataAnalysis36 = createDataModel('filter3d_3det_a0');
+export const DataAnalysis31 = createDataModel('filterdata3d_3tr');
+export const DataAnalysis32 = createDataModel('filterdata2d_3tr');
+export const DataAnalysis33 = createDataModel('filterdata3d_3det');
+export const DataAnalysis34 = createDataModel('filterdata2d_3det');
+export const DataAnalysis35 = createDataModel('filterdata3d_3tr_a0');
+export const DataAnalysis36 = createDataModel('filterdata2d_3tr_a0');
+export const DataAnalysis37 = createDataModel('filterdata3d_3det_a0');
+export const DataAnalysis38 = createDataModel('filterdata2d_3det_a0');
 
-export const DataAnalysis81 = createDataModel('filter2d_8');
-export const DataAnalysis82 = createDataModel('filter3d_8');
-export const DataAnalysis83 = createDataModel('filter2d_8det');
-export const DataAnalysis84 = createDataModel('filter3d_8det');
+export const DataAnalysis81 = createDataModel('filterdata3d_8tr');
+export const DataAnalysis82 = createDataModel('filterdata2d_8tr');
+export const DataAnalysis83 = createDataModel('filterdata2d_8det');
+export const DataAnalysis84 = createDataModel('filterdata3d_8det');
+export const DataAnalysis85 = createDataModel('filterdata3d_8tr_a0');
+export const DataAnalysis86 = createDataModel('filterdata2d_8tr_a0');
+export const DataAnalysis87 = createDataModel('filterdata3d_8det_a0');
+export const DataAnalysis88 = createDataModel('filterdata2d_8det_a0');
