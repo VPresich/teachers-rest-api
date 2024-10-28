@@ -13,6 +13,7 @@ const dataSchema = new Schema(
     IMMpositive: { type: String, default: 'None' },
     velocityOK: { type: String, default: 'None' },
     speed: { type: String, default: 'None' },
+    probability: { type: Number, default: 1.0 },
     X: { type: String, default: '0' },
     Y: { type: String, default: '0' },
     Z: { type: String, default: '0' },
@@ -34,6 +35,8 @@ export const DataAnalysis35 = createDataModel('filterdata3d_3tr_a0');
 export const DataAnalysis36 = createDataModel('filterdata2d_3tr_a0');
 export const DataAnalysis37 = createDataModel('filterdata3d_3det_a0');
 export const DataAnalysis38 = createDataModel('filterdata2d_3det_a0');
+
+export const DataAnalysis51 = createDataModel('filterdata2d_5det_compl');
 
 export const DataAnalysis81 = createDataModel('filterdata3d_8tr');
 export const DataAnalysis82 = createDataModel('filterdata2d_8tr');
