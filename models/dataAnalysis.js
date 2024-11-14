@@ -35,8 +35,16 @@ export const DataAnalysis35 = createDataModel('filterdata3d_3tr_a0');
 export const DataAnalysis36 = createDataModel('filterdata2d_3tr_a0');
 export const DataAnalysis37 = createDataModel('filterdata3d_3det_a0');
 export const DataAnalysis38 = createDataModel('filterdata2d_3det_a0');
+export const DataAnalysis39 = createDataModel('filterdata3d_3det_10c');
+export const DataAnalysis40 = createDataModel('filterdata3d_3det_10c_3km');
 
 export const DataAnalysis51 = createDataModel('filterdata2d_5det_compl');
+export const DataAnalysis52 = createDataModel('filterdata2d_5det_probability');
+export const DataAnalysis53 = createDataModel('filterdata2d_5det_prob_mult');
+export const DataAnalysis54 = createDataModel('filterdata2d_5det_prob_mult2');
+export const DataAnalysis55 = createDataModel(
+  'filterdata2d_5det_prob_mult2_on'
+);
 
 export const DataAnalysis81 = createDataModel('filterdata3d_8tr');
 export const DataAnalysis82 = createDataModel('filterdata2d_8tr');
