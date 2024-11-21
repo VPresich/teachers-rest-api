@@ -42,9 +42,12 @@ export const DataAnalysis51 = createDataModel('filterdata2d_5det_compl');
 export const DataAnalysis52 = createDataModel('filterdata2d_5det_probability');
 export const DataAnalysis53 = createDataModel('filterdata2d_5det_prob_mult');
 export const DataAnalysis54 = createDataModel('filterdata2d_5det_prob_mult2');
-export const DataAnalysis55 = createDataModel(
-  'filterdata2d_5det_prob_mult2_on'
-);
+// export const DataAnalysis55 = createDataModel(
+//   'filterdata2d_5det_prob_mult2_on'
+//);
+
+export const DataAnalysis55 = createDataModel('filterdata_single');
+export const DataAnalysis56 = createDataModel('filterdata_single2');
 
 export const DataAnalysis81 = createDataModel('filterdata3d_8tr');
 export const DataAnalysis82 = createDataModel('filterdata2d_8tr');

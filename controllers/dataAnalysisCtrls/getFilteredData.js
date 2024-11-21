@@ -14,6 +14,7 @@ import {
   DataAnalysis53,
   DataAnalysis54,
   DataAnalysis55,
+  DataAnalysis56,
   DataAnalysis81,
   DataAnalysis82,
   DataAnalysis83,
@@ -28,6 +29,8 @@ import ctrlWrapper from '../../helpers/ctrlWrapper.js';
 const getFilteredData = ctrlWrapper(async (req, res, next) => {
   const { number } = req.params;
   const numValue = parseInt(number, 10);
+
+  console.log(numValue);
 
   const { startTime, endTime } = req.query;
 
@@ -45,7 +48,7 @@ const getFilteredData = ctrlWrapper(async (req, res, next) => {
   }
 
   let dataRecords;
-
+  console.log(queryConditions);
   switch (numValue) {
     case 31:
       dataRecords = await DataAnalysis31.find(queryConditions);
@@ -91,6 +94,9 @@ const getFilteredData = ctrlWrapper(async (req, res, next) => {
       break;
     case 55:
       dataRecords = await DataAnalysis55.find(queryConditions);
+      break;
+    case 56:
+      dataRecords = await DataAnalysis56.find(queryConditions);
       break;
     case 81:
       dataRecords = await DataAnalysis81.find(queryConditions);
