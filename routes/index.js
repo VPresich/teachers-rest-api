@@ -8,6 +8,7 @@ import backgroundsRouter from './backgrounds.js';
 import nanniesRouter from './nanniesRouter.js';
 import psychologistsRouter from './psychologistsRouter.js';
 import dataAnalysisRouter from './dataAnalysisRouter.js';
+import houghDataRouter from './houghDataRouter.js';
 
 const routers = express.Router();
 routers.use('/help', helpRouter);
@@ -19,5 +20,6 @@ routers.use('/favorites', favoritesRouter);
 routers.use('/nannies', nanniesRouter);
 routers.use('/psychologists', psychologistsRouter);
 routers.use('/data', dataAnalysisRouter);
+routers.use('/hough-data', houghDataRouter);
 
 export default routers;
