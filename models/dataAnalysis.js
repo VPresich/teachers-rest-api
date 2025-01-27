@@ -28,7 +28,7 @@ const createDataModel = collectionName => {
 };
 
 export const DataAnalysis31 = createDataModel('filterdata3d_3tr');
-export const DataAnalysis32 = createDataModel('filterdata2d_3tr');
+export const DataAnalysis32 = createDataModel('filterdata_new');
 export const DataAnalysis33 = createDataModel('filterdata3d_3det');
 export const DataAnalysis34 = createDataModel('filterdata2d_3det');
 export const DataAnalysis35 = createDataModel('filterdata3d_3tr_a0');
@@ -49,7 +49,7 @@ export const DataAnalysis54 = createDataModel('filterdata2d_5det_prob_mult2');
 export const DataAnalysis55 = createDataModel('filterdata_single');
 export const DataAnalysis56 = createDataModel('filterdata_single2');
 
-export const DataAnalysis81 = createDataModel('filterdata3d_8tr');
+export const DataAnalysis81 = createDataModel('filterdata_single_new');
 export const DataAnalysis82 = createDataModel('filterdata2d_8tr');
 export const DataAnalysis83 = createDataModel('filterdata3d_8det');
 export const DataAnalysis84 = createDataModel('filterdata2d_8det');
