@@ -1,4 +1,13 @@
 import {
+  DataAnalysis10,
+  DataAnalysis11,
+  DataAnalysis12,
+  DataAnalysis13,
+  DataAnalysis20,
+  DataAnalysis21,
+  DataAnalysis22,
+  DataAnalysis23,
+  DataAnalysis30,
   DataAnalysis31,
   DataAnalysis32,
   DataAnalysis33,
@@ -9,19 +18,25 @@ import {
   DataAnalysis38,
   DataAnalysis39,
   DataAnalysis40,
+  DataAnalysis41,
+  DataAnalysis50,
   DataAnalysis51,
   DataAnalysis52,
   DataAnalysis53,
   DataAnalysis54,
   DataAnalysis55,
+  DataAnalysis60,
+  DataAnalysis61,
+  DataAnalysis62,
+  DataAnalysis63,
+  DataAnalysis70,
+  DataAnalysis71,
+  DataAnalysis72,
+  DataAnalysis73,
+  DataAnalysis80,
   DataAnalysis81,
   DataAnalysis82,
   DataAnalysis83,
-  DataAnalysis84,
-  DataAnalysis85,
-  DataAnalysis86,
-  DataAnalysis87,
-  DataAnalysis88,
 } from '../../models/dataAnalysis.js';
 import ctrlWrapper from '../../helpers/ctrlWrapper.js';
 
@@ -31,6 +46,33 @@ const getDataByNumber = ctrlWrapper(async (req, res, next) => {
 
   let dataRecords;
   switch (numValue) {
+    case 10:
+      dataRecords = await DataAnalysis10.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 11:
+      dataRecords = await DataAnalysis11.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 12:
+      dataRecords = await DataAnalysis12.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 13:
+      dataRecords = await DataAnalysis13.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 20:
+      dataRecords = await DataAnalysis20.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 21:
+      dataRecords = await DataAnalysis21.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 22:
+      dataRecords = await DataAnalysis22.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 23:
+      dataRecords = await DataAnalysis23.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 30:
+      dataRecords = await DataAnalysis30.find({ TrackNum: { $gt: 0 } });
+      break;
     case 31:
       dataRecords = await DataAnalysis31.find({ TrackNum: { $gt: 0 } });
       break;
@@ -61,6 +103,12 @@ const getDataByNumber = ctrlWrapper(async (req, res, next) => {
     case 40:
       dataRecords = await DataAnalysis40.find({ TrackNum: { $gt: 0 } });
       break;
+    case 41:
+      dataRecords = await DataAnalysis41.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 50:
+      dataRecords = await DataAnalysis50.find({ TrackNum: { $gt: 0 } });
+      break;
     case 51:
       dataRecords = await DataAnalysis51.find({ TrackNum: { $gt: 0 } });
       break;
@@ -76,6 +124,33 @@ const getDataByNumber = ctrlWrapper(async (req, res, next) => {
     case 55:
       dataRecords = await DataAnalysis55.find({ TrackNum: { $gt: 0 } });
       break;
+    case 60:
+      dataRecords = await DataAnalysis60.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 61:
+      dataRecords = await DataAnalysis61.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 62:
+      dataRecords = await DataAnalysis62.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 63:
+      dataRecords = await DataAnalysis63.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 70:
+      dataRecords = await DataAnalysis70.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 71:
+      dataRecords = await DataAnalysis71.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 72:
+      dataRecords = await DataAnalysis72.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 73:
+      dataRecords = await DataAnalysis73.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 80:
+      dataRecords = await DataAnalysis80.find({ TrackNum: { $gt: 0 } });
+      break;
     case 81:
       dataRecords = await DataAnalysis81.find({ TrackNum: { $gt: 0 } });
       break;
@@ -84,21 +159,6 @@ const getDataByNumber = ctrlWrapper(async (req, res, next) => {
       break;
     case 83:
       dataRecords = await DataAnalysis83.find({ TrackNum: { $gt: 0 } });
-      break;
-    case 84:
-      dataRecords = await DataAnalysis84.find({ TrackNum: { $gt: 0 } });
-      break;
-    case 85:
-      dataRecords = await DataAnalysis85.find({ TrackNum: { $gt: 0 } });
-      break;
-    case 86:
-      dataRecords = await DataAnalysis86.find({ TrackNum: { $gt: 0 } });
-      break;
-    case 87:
-      dataRecords = await DataAnalysis87.find({ TrackNum: { $gt: 0 } });
-      break;
-    case 88:
-      dataRecords = await DataAnalysis88.find({ TrackNum: { $gt: 0 } });
       break;
     default:
       dataRecords = await DataAnalysis31.find({ TrackNum: { $gt: 0 } });

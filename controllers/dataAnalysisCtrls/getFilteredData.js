@@ -1,4 +1,13 @@
 import {
+  DataAnalysis10,
+  DataAnalysis11,
+  DataAnalysis12,
+  DataAnalysis13,
+  DataAnalysis20,
+  DataAnalysis21,
+  DataAnalysis22,
+  DataAnalysis23,
+  DataAnalysis30,
   DataAnalysis31,
   DataAnalysis32,
   DataAnalysis33,
@@ -9,20 +18,33 @@ import {
   DataAnalysis38,
   DataAnalysis39,
   DataAnalysis40,
+  DataAnalysis41,
+  DataAnalysis42,
+  DataAnalysis43,
+  DataAnalysis44,
+  DataAnalysis45,
+  DataAnalysis46,
+  DataAnalysis47,
+  DataAnalysis50,
   DataAnalysis51,
   DataAnalysis52,
   DataAnalysis53,
   DataAnalysis54,
   DataAnalysis55,
   DataAnalysis56,
+  DataAnalysis57,
+  DataAnalysis60,
+  DataAnalysis61,
+  DataAnalysis62,
+  DataAnalysis63,
+  DataAnalysis70,
+  DataAnalysis71,
+  DataAnalysis72,
+  DataAnalysis73,
+  DataAnalysis80,
   DataAnalysis81,
   DataAnalysis82,
   DataAnalysis83,
-  DataAnalysis84,
-  DataAnalysis85,
-  DataAnalysis86,
-  DataAnalysis87,
-  DataAnalysis88,
 } from '../../models/dataAnalysis.js';
 import ctrlWrapper from '../../helpers/ctrlWrapper.js';
 
@@ -50,6 +72,33 @@ const getFilteredData = ctrlWrapper(async (req, res, next) => {
   let dataRecords;
   console.log(queryConditions);
   switch (numValue) {
+    case 10:
+      dataRecords = await DataAnalysis10.find(queryConditions);
+      break;
+    case 11:
+      dataRecords = await DataAnalysis11.find(queryConditions);
+      break;
+    case 12:
+      dataRecords = await DataAnalysis12.find(queryConditions);
+      break;
+    case 13:
+      dataRecords = await DataAnalysis13.find(queryConditions);
+      break;
+    case 20:
+      dataRecords = await DataAnalysis20.find(queryConditions);
+      break;
+    case 21:
+      dataRecords = await DataAnalysis21.find(queryConditions);
+      break;
+    case 22:
+      dataRecords = await DataAnalysis22.find(queryConditions);
+      break;
+    case 23:
+      dataRecords = await DataAnalysis23.find(queryConditions);
+      break;
+    case 30:
+      dataRecords = await DataAnalysis30.find(queryConditions);
+      break;
     case 31:
       dataRecords = await DataAnalysis31.find(queryConditions);
       break;
@@ -80,6 +129,30 @@ const getFilteredData = ctrlWrapper(async (req, res, next) => {
     case 40:
       dataRecords = await DataAnalysis40.find(queryConditions);
       break;
+    case 41:
+      dataRecords = await DataAnalysis41.find(queryConditions);
+      break;
+    case 42:
+      dataRecords = await DataAnalysis42.find(queryConditions);
+      break;
+    case 43:
+      dataRecords = await DataAnalysis43.find(queryConditions);
+      break;
+    case 44:
+      dataRecords = await DataAnalysis44.find(queryConditions);
+      break;
+    case 45:
+      dataRecords = await DataAnalysis45.find(queryConditions);
+      break;
+    case 46:
+      dataRecords = await DataAnalysis46.find(queryConditions);
+      break;
+    case 47:
+      dataRecords = await DataAnalysis47.find(queryConditions);
+      break;
+    case 50:
+      dataRecords = await DataAnalysis50.find(queryConditions);
+      break;
     case 51:
       dataRecords = await DataAnalysis51.find(queryConditions);
       break;
@@ -98,6 +171,36 @@ const getFilteredData = ctrlWrapper(async (req, res, next) => {
     case 56:
       dataRecords = await DataAnalysis56.find(queryConditions);
       break;
+    case 57:
+      dataRecords = await DataAnalysis57.find(queryConditions);
+      break;
+    case 60:
+      dataRecords = await DataAnalysis60.find(queryConditions);
+      break;
+    case 61:
+      dataRecords = await DataAnalysis61.find(queryConditions);
+      break;
+    case 62:
+      dataRecords = await DataAnalysis62.find(queryConditions);
+      break;
+    case 63:
+      dataRecords = await DataAnalysis63.find(queryConditions);
+      break;
+    case 70:
+      dataRecords = await DataAnalysis70.find(queryConditions);
+      break;
+    case 71:
+      dataRecords = await DataAnalysis71.find(queryConditions);
+      break;
+    case 72:
+      dataRecords = await DataAnalysis72.find(queryConditions);
+      break;
+    case 73:
+      dataRecords = await DataAnalysis73.find(queryConditions);
+      break;
+    case 80:
+      dataRecords = await DataAnalysis80.find(queryConditions);
+      break;
     case 81:
       dataRecords = await DataAnalysis81.find(queryConditions);
       break;
@@ -106,21 +209,6 @@ const getFilteredData = ctrlWrapper(async (req, res, next) => {
       break;
     case 83:
       dataRecords = await DataAnalysis83.find(queryConditions);
-      break;
-    case 84:
-      dataRecords = await DataAnalysis84.find(queryConditions);
-      break;
-    case 85:
-      dataRecords = await DataAnalysis85.find(queryConditions);
-      break;
-    case 86:
-      dataRecords = await DataAnalysis86.find(queryConditions);
-      break;
-    case 87:
-      dataRecords = await DataAnalysis87.find(queryConditions);
-      break;
-    case 88:
-      dataRecords = await DataAnalysis88.find(queryConditions);
       break;
     default:
       dataRecords = await DataAnalysis31.find(queryConditions);
