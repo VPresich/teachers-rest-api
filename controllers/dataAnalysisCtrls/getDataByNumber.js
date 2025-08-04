@@ -36,6 +36,7 @@ import {
   DataAnalysis46,
   DataAnalysis47,
   DataAnalysis48,
+  DataAnalysis49,
   DataAnalysis50,
   DataAnalysis51,
   DataAnalysis52,
@@ -68,6 +69,7 @@ import {
   DataAnalysis82,
   DataAnalysis83,
 } from '../../models/dataAnalysis.js';
+
 import ctrlWrapper from '../../helpers/ctrlWrapper.js';
 
 const getDataByNumber = ctrlWrapper(async (req, res, next) => {
@@ -186,6 +188,9 @@ const getDataByNumber = ctrlWrapper(async (req, res, next) => {
       break;
     case 48:
       dataRecords = await DataAnalysis48.find({ TrackNum: { $gt: 0 } });
+      break;
+    case 49:
+      dataRecords = await DataAnalysis49.find({ TrackNum: { $gt: 0 } });
       break;
     case 50:
       dataRecords = await DataAnalysis50.find({ TrackNum: { $gt: 0 } });

@@ -75,6 +75,9 @@ export const DataAnalysis47 = createDataModel('filterdata2d_114_3_ANIS_CTa');
 export const DataAnalysis48 = createDataModel(
   'filterdata2d_114_3_postANIS_CTa'
 );
+export const DataAnalysis49 = createDataModel(
+  'filterdata2d_114_3_ANIS_CTa_acc'
+);
 
 export const DataAnalysis50 = createDataModel('filterdata2d_115_3_det_CTa');
 export const DataAnalysis51 = createDataModel('filterdata2d_115_8_det_CTa');
@@ -116,14 +119,3 @@ export const DataAnalysis82 = createDataModel(
   'filterdata_single_new_criteria_estimator'
 );
 export const DataAnalysis83 = createDataModel('filterdata_single2');
-
-// filterdata3d_3tr - 3 RLS, 3D, tr of Matrix in IMM inconsistency criterion.
-//filterdata3d_3tr_a0 -3 RLS, 3D, tr of Matrix in IMM inconsistency criterion, association algorithm - a0.
-//new_q - neww q in lib.config, 10c - 3d width 10c in period.
-
-// 31: filterdata3d_3det_newQ - 3 RLS, 3D, det of Matrix in IMM inconsistency criterion, new values of q-parameter.
-// 32: filterdata2d_3det_newQ - 3 RLS, 2D, det of Matrix in IMM inconsistency criterion, new values of q-parameter.
-// 33: filterdata3d_3det 3 RLS, 3D, det of Matrix in IMM inconsistency criterion.
-// 34: filterdata2d_3det 3 RLS, 2D, det of Matrix in IMM inconsistency criterion.
-
-// filterdata3d_new_criteria_117_estimator_old --- without normalization
