@@ -35,8 +35,6 @@ export const DataAnalysis15 = createDataModel('filterdata2d_111_8_postNIS_CTa');
 export const DataAnalysis16 = createDataModel('filterdata2d_111_3_NIS_CTa');
 export const DataAnalysis17 = createDataModel('filterdata2d_111_8_NIS_CTa');
 
-export const DataAnalysis19 = createDataModel('filterdata2d_111_3_ANIS_CTa');
-
 export const DataAnalysis20 = createDataModel('filterdata2d_112_3_det_CTa');
 export const DataAnalysis21 = createDataModel('filterdata2d_112_8_det_CTa');
 export const DataAnalysis22 = createDataModel('filterdata2d_112_3_trace_CTa');
@@ -76,7 +74,6 @@ export const DataAnalysis57 = createDataModel('filterdata2d_115_8_NIS_CTa');
 export const DataAnalysis60 = createDataModel('filterdata2d_116_3_det_CTa');
 export const DataAnalysis61 = createDataModel('filterdata2d_116_8_det_CTa');
 export const DataAnalysis62 = createDataModel('filterdata2d_116_3_trace_CTa');
-export const DataAnalysis63 = createDataModel('filterdata2d_116_8_trace_CTa');
 export const DataAnalysis64 = createDataModel('filterdata2d_116_3_postNIS_CTa');
 export const DataAnalysis65 = createDataModel('filterdata2d_116_8_postNIS_CTa');
 export const DataAnalysis66 = createDataModel('filterdata2d_116_3_NIS_CTa');
@@ -87,9 +84,7 @@ export const DataAnalysis71 = createDataModel('filterdata2d_117_8_det_CTa');
 export const DataAnalysis72 = createDataModel('filterdata2d_117_3_trace_CTa');
 export const DataAnalysis73 = createDataModel('filterdata2d_117_8_trace_CTa');
 export const DataAnalysis74 = createDataModel('filterdata2d_117_3_postNIS_CTa');
-export const DataAnalysis75 = createDataModel(
-  'filterdata2d_117_81_postNIS_CTa'
-);
+export const DataAnalysis75 = createDataModel('filterdata2d_117_8_postNIS_CTa');
 export const DataAnalysis76 = createDataModel('filterdata2d_117_3_NIS_CTa');
 export const DataAnalysis77 = createDataModel('filterdata2d_117_8_NIS_CTa');
 
